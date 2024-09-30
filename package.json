@@ -1,0 +1,54 @@
+{
+  "name": "cross1",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^1",
+    "@sap-cloud-sdk/http-client": "^3.16.0",
+    "@sap-cloud-sdk/connectivity": "^3.20.0",
+    "@sap/cds": "^8",
+    "@sap/xsenv": "^5.2.0",
+    "@sap/xssec": "^4.2.2",
+    "express": "^4",
+    "passport": "^0.7.0"
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "^0.6",
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^8",
+    "@sap/ux-specification": "^1.124.0",
+    "rimraf": "^5.0.5"
+  },
+  "cds": {
+    "requires": {
+      "crossbpadest": {
+        "kind": "odata-v2",
+        "csrf": true,
+        "csrfInBatch": true,
+        "credentials": {
+          "destination": "crossbpadest",
+          "requestTimeout": 120000
+        },
+        "destinationOptions": {
+          "selectionStrategy": "alwaysProvider",
+          "jwt": null
+        }
+      },
+      "auth": "dummy",
+      "db" : "hana"
+    }
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-cross1app": "cds watch --open cross1app/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy cross1 --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "sapux": [
+    "app/cross1app"
+  ]
+}
